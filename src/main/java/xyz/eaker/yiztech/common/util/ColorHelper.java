@@ -62,12 +62,12 @@ public class ColorHelper {
         return Color.RGBtoHSB(r, g, b, null);
     }
 
-    public static float[] INTtoRGBA(int color) {
+    public static float[] INTtoARGB255(int color) {
         float[] res = new float[4];
-        res[0] = (color >> 24 & 0xff) / 255f;
-        res[1] = (color >> 16 & 0xff) / 255f;
-        res[2] = (color >> 8 & 0xff) / 255f;
-        res[3] = (color & 0xff) / 255f;
+        res[0] = (color >> 24 & 0xff);
+        res[1] = (color >> 16 & 0xff);
+        res[2] = (color >> 8 & 0xff);
+        res[3] = (color & 0xff);
         return res;
     }
 
@@ -199,7 +199,7 @@ public class ColorHelper {
     }
 
     public static String INTHueShift(int color, int factor, boolean isHighlight) {
-        var rgb = INTtoRGBA(color);
+        var rgb = INTtoARGB255(color);
         var s = RGBtoHSV(rgb[1], rgb[2], rgb[3]);
         return HSVHueShift(s[0], s[1], s[2], factor, isHighlight);
     }
