@@ -15,13 +15,20 @@ public class ItemModelProvider extends BaseDataProvider {
     @Override
     public void onRegisterData() {
         JsonObject jsonobject = new JsonObject();
-        jsonobject.addProperty("aaa", "bbb");
-        this.saveData(new ResourceLocation(YizTech.MOD_ID, "server_ingot"), jsonobject);
+        jsonobject.addProperty("parent", "minecraft:item/generated");
+        var tex = new JsonObject();
+        tex.addProperty("layer0","yiztech:material/ingot/00");
+        tex.addProperty("layer1","yiztech:material/ingot/01");
+        tex.addProperty("layer2","yiztech:material/ingot/02");
+        tex.addProperty("layer3","yiztech:material/ingot/03");
+        tex.addProperty("layer4","yiztech:material/ingot/04");
+        jsonobject.add("textures", tex);
+        this.saveData(new ResourceLocation(YizTech.MOD_ID, "tin_ingot"), jsonobject);
     }
 
     @Override
     public String getTypePath() {
-        return "model/item";
+        return "models/item";
     }
 
     @Override
