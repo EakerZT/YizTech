@@ -29,15 +29,14 @@ public class Material implements IRegisterObject {
     }
 
     @Override
-    public void onServerRegister() {
+    public void onCommonRegister() {
         for (MaterialPart part : this.parts) {
-            part.onRegisterPar(this);
+            part.onRegister(this);
         }
     }
 
     @Override
-    public void onCommonRegister() {
-
+    public void onClientRegister() {
     }
 
     public static class MaterialBuilder {
@@ -59,6 +58,20 @@ public class Material implements IRegisterObject {
             return this;
         }
 
+        public MaterialBuilder plate() {
+            this.parts.add(new MaterialPartPlate());
+            return this;
+        }
+
+        public MaterialBuilder metallic() {
+            this.parts.add(new MaterialPartIngot());
+            this.parts.add(new MaterialPartNugget());
+            this.parts.add(new MaterialPartPlate());
+            this.parts.add(new MaterialPartGear());
+            this.parts.add(new MaterialPartRod());
+            this.parts.add(new MaterialPartDust());
+            return this;
+        }
 
         public Material build() {
             return new Material(this.name, this.color, parts);

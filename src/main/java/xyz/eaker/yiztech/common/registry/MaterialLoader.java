@@ -5,8 +5,8 @@ import xyz.eaker.yiztech.api.material.Material;
 public class MaterialLoader {
     public static void register() {
         YTRegistry.registerObject(Material.builder("tin")
-                .color(0x808080)
-                .ingot()
+                .color(0xffb400)
+                .metallic()
                 .build());
     }
 }

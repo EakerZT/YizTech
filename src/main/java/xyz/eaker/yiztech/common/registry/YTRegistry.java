@@ -7,12 +7,14 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.block.Block;
 import net.minecraftforge.client.event.RegisterColorHandlersEvent;
+import net.minecraftforge.client.model.generators.ItemModelProvider;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.RegistryObject;
 import xyz.eaker.yiztech.YizTech;
 import xyz.eaker.yiztech.api.register.IItemColorProvider;
+import xyz.eaker.yiztech.api.register.IRegisterItemModel;
 import xyz.eaker.yiztech.api.register.IRegisterObject;
 
 import java.util.ArrayList;
@@ -47,7 +49,7 @@ public class YTRegistry {
         CREATIVE_MODE_TABS.register(modEventBus);
         MaterialLoader.register();
         for (IRegisterObject o : REGISTER_OBJECTS) {
-            o.onServerRegister();
+            o.onCommonRegister();
         }
     }
 
@@ -59,6 +61,15 @@ public class YTRegistry {
 
     public static void registerObject(IRegisterObject o) {
         REGISTER_OBJECTS.add(o);
+    }
+
+    public static void onRegisterItemModel(ItemModelProvider provider) {
+        for (RegistryObject<Item> value : ITEM_MAP.values()) {
+            var item = value.get();
+            if (item instanceof IRegisterItemModel iRegisterItemModel) {
+                iRegisterItemModel.onRegisterItemModel(provider);
+            }
+        }
     }
 
     public static void onRegisterItemColor(RegisterColorHandlersEvent.Item event) {

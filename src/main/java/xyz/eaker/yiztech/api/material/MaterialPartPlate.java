@@ -3,9 +3,9 @@ package xyz.eaker.yiztech.api.material;
 import xyz.eaker.yiztech.common.item.material.SimpleMaterialItem;
 import xyz.eaker.yiztech.common.registry.YTRegistry;
 
-public class MaterialPartIngot extends MaterialPart {
-    public MaterialPartIngot() {
-        super("ingot");
+public class MaterialPartPlate extends MaterialPart {
+    public MaterialPartPlate() {
+        super("plate");
     }
 
     @Override

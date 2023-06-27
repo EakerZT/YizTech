@@ -7,5 +7,9 @@ public abstract class MaterialPart {
         this.name = name;
     }
 
-    public abstract void onRegisterPar(Material material);
+    public abstract void onRegister(Material material);
+
+    public String getName() {
+        return name;
+    }
 }
