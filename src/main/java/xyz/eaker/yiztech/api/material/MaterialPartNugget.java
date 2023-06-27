@@ -11,6 +11,6 @@ public class MaterialPartNugget extends MaterialPart {
     @Override
     public void onRegister(Material material) {
         var name = material.getName() + "_" + this.name;
-        YTRegistry.registerItem(name, () -> new SimpleMaterialItem(material, this));
+        YTRegistry.item(name, () -> new SimpleMaterialItem(material, this));
     }
 }

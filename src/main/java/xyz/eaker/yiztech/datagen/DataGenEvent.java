@@ -1,5 +1,6 @@
 package xyz.eaker.yiztech.datagen;
 
+import net.minecraftforge.client.model.generators.BlockStateProvider;
 import net.minecraftforge.client.model.generators.ItemModelProvider;
 import net.minecraftforge.data.event.GatherDataEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -14,6 +15,12 @@ public class DataGenEvent {
     public static void dataGen(GatherDataEvent event) {
         var gen = event.getGenerator();
         var extHelper = event.getExistingFileHelper();
+        gen.addProvider(true, new BlockStateProvider(gen.getPackOutput(), YizTech.MOD_ID, extHelper) {
+            @Override
+            protected void registerStatesAndModels() {
+                YTRegistry.onRegisterBlockState(this);
+            }
+        });
         gen.addProvider(true, new ItemModelProvider(gen.getPackOutput(), YizTech.MOD_ID, extHelper) {
             @Override
             protected void registerModels() {
