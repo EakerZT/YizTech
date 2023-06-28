@@ -1,5 +1,6 @@
 package xyz.eaker.yiztech.common.block.machine;
 
+import com.google.gson.JsonObject;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.level.block.Block;
@@ -7,14 +8,13 @@ import net.minecraft.world.level.block.EntityBlock;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraftforge.client.model.generators.BlockStateProvider;
-import net.minecraftforge.client.model.generators.ItemModelProvider;
-import net.minecraftforge.client.model.generators.ModelFile;
+import net.minecraftforge.client.model.generators.*;
 import org.jetbrains.annotations.Nullable;
 import xyz.eaker.yiztech.YizTech;
 import xyz.eaker.yiztech.api.machine.Machine;
 import xyz.eaker.yiztech.api.register.IRegisterBlockItemModel;
 import xyz.eaker.yiztech.api.register.IRegisterBlockState;
+import xyz.eaker.yiztech.client.model.MachineModel;
 
 public class BaseMachineBlock extends Block implements IRegisterBlockState, IRegisterBlockItemModel, EntityBlock {
     private final Machine machine;
@@ -32,7 +32,14 @@ public class BaseMachineBlock extends Block implements IRegisterBlockState, IReg
 
     @Override
     public void onRegisterBlockState(BlockStateProvider provider) {
-        provider.simpleBlock(this, provider.models().cubeAll(machine.getName(), YizTech.loc("block/machine/hull/bronze")));
+        provider.simpleBlock(this, provider.models().getBuilder(machine.getName())
+                .customLoader((b, f) -> new CustomLoaderBuilder<BlockModelBuilder>(YizTech.loc(MachineModel.LOADER_NAME), b, f) {
+                    @Override
+                    public JsonObject toJson(JsonObject json) {
+                        json.addProperty("hull", YizTech.loc("block/machine/hull/bronze").toString());
+                        return super.toJson(json);
+                    }
+                }).end());
     }
 
     @Nullable
