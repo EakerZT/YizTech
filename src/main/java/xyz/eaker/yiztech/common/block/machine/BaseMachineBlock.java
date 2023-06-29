@@ -19,6 +19,7 @@ import xyz.eaker.yiztech.client.model.MachineModel;
 public class BaseMachineBlock extends Block implements IRegisterBlockState, IRegisterBlockItemModel, EntityBlock {
     private final Machine machine;
 
+
     public BaseMachineBlock(Machine machine) {
         super(BlockBehaviour.Properties.of());
         this.machine = machine;
