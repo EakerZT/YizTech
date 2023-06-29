@@ -17,6 +17,7 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.inventory.InventoryMenu;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraftforge.client.ChunkRenderTypeSet;
 import net.minecraftforge.client.model.IDynamicBakedModel;
 import net.minecraftforge.client.model.data.ModelData;
 import net.minecraftforge.client.model.geometry.IGeometryBakingContext;
@@ -24,6 +25,7 @@ import net.minecraftforge.client.model.geometry.IGeometryLoader;
 import net.minecraftforge.client.model.geometry.IUnbakedGeometry;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+import xyz.eaker.yiztech.YizTech;
 import xyz.eaker.yiztech.common.util.ModelHelper;
 
 import java.util.*;
@@ -35,6 +37,8 @@ public class MachineModel implements IDynamicBakedModel {
     public final static HashMap<ResourceLocation, TextureAtlasSprite> TEXTURE_MAP = new HashMap<>();
     private final ResourceLocation hull;
     private static final EnumMap<Direction, BakedQuad> hullCache = new EnumMap<>(Direction.class);
+    private static final Map<ResourceLocation, EnumMap<Direction, BakedQuad>> coverCache = new HashMap<>();
+    private static final ResourceLocation pumpId = YizTech.loc("block/machine/cover/pump_input");
 
     public MachineModel(ResourceLocation hull) {
         this.hull = hull;
@@ -55,10 +59,18 @@ public class MachineModel implements IDynamicBakedModel {
             return Collections.emptyList();
         }
         if (!hullCache.containsKey(side)) {
-            hullCache.put(side, ModelHelper.createQuad(ModelHelper.FACE_QUADS.get(side), getTexture(hull)));
+            hullCache.put(side, ModelHelper.createQuad(ModelHelper.FACE_QUADS.get(side), getTexture(hull), 0));
+        }
+        if (!coverCache.containsKey(pumpId)) {
+            coverCache.put(pumpId, new EnumMap<>(Direction.class));
+        }
+        var coverSideCache = coverCache.get(pumpId);
+        if (!coverSideCache.containsKey(side)) {
+            coverSideCache.put(side, ModelHelper.createQuad(ModelHelper.FACE_QUADS.get(side), getTexture(pumpId), 1, false, false));
         }
         List<BakedQuad> quads = new ArrayList<>();
         quads.add(hullCache.get(side));
+        quads.add(coverSideCache.get(side));
         return quads;
     }
 
@@ -82,14 +94,22 @@ public class MachineModel implements IDynamicBakedModel {
         return false;
     }
 
+    @NotNull
     @Override
     public TextureAtlasSprite getParticleIcon() {
         return getTexture(hull);
     }
 
+    @NotNull
     @Override
     public ItemOverrides getOverrides() {
         return ItemOverrides.EMPTY;
+    }
+
+    @NotNull
+    @Override
+    public ChunkRenderTypeSet getRenderTypes(@NotNull BlockState state, @NotNull RandomSource rand, @NotNull ModelData data) {
+        return ChunkRenderTypeSet.of(RenderType.cutout());
     }
 
     public static class Geometry implements IUnbakedGeometry<Geometry> {

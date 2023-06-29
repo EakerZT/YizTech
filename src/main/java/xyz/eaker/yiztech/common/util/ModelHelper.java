@@ -17,11 +17,11 @@ public class ModelHelper {
 
     static {
         for (Direction dir : Direction.values()) {
-            FACE_QUADS.put(dir, createQuadVerts(dir, 0, 1, 1));
+            FACE_QUADS.put(dir, createQuadVertex(dir, 0, 1, 1));
         }
     }
 
-    public static Vec3[] createQuadVerts(Direction face, double leftEdge, double rightEdge, double elevation) {
+    public static Vec3[] createQuadVertex(Direction face, double leftEdge, double rightEdge, double elevation) {
         return switch (face) {
             case DOWN -> new Vec3[]{
                     new Vec3(leftEdge, 1 - elevation, leftEdge),
@@ -62,23 +62,19 @@ public class ModelHelper {
         };
     }
 
-    public static BakedQuad createQuad(Vec3[] verts, TextureAtlasSprite sprite) {
-        return createQuad(verts[0], verts[1], verts[2], verts[3], sprite);
+    public static BakedQuad createQuad(Vec3[] vertex, TextureAtlasSprite sprite, int tintIndex) {
+        return createQuad(vertex[0], vertex[1], vertex[2], vertex[3], sprite, 0xFFFFFF, 1.0f, tintIndex, true, true);
     }
 
-    public static BakedQuad createQuad(Vec3 v1, Vec3 v2, Vec3 v3, Vec3 v4, TextureAtlasSprite sprite) {
-        return createQuad(v1, v2, v3, v4, sprite, 0xFFFFFF, 1.0f);
+    public static BakedQuad createQuad(Vec3[] vertex, TextureAtlasSprite sprite, int tintIndex, boolean hasAmbientOcclusion, boolean shade) {
+        return createQuad(vertex[0], vertex[1], vertex[2], vertex[3], sprite, 0xFFFFFF, 1.0f, tintIndex, hasAmbientOcclusion, shade);
     }
 
-    public static BakedQuad createQuad(Vec3[] verts, TextureAtlasSprite sprite, int color) {
-        return createQuad(verts[0], verts[1], verts[2], verts[3], sprite, color, 1.0f);
+    public static BakedQuad createQuad(Vec3[] vertex, TextureAtlasSprite sprite, int color, float alpha, int tintIndex, boolean hasAmbientOcclusion, boolean shade) {
+        return createQuad(vertex[0], vertex[1], vertex[2], vertex[3], sprite, color, alpha, tintIndex, hasAmbientOcclusion, shade);
     }
 
-    public static BakedQuad createQuad(Vec3[] verts, TextureAtlasSprite sprite, int color, float alpha) {
-        return createQuad(verts[0], verts[1], verts[2], verts[3], sprite, color, alpha);
-    }
-
-    public static BakedQuad createQuad(Vec3 v1, Vec3 v2, Vec3 v3, Vec3 v4, TextureAtlasSprite sprite, int color, float alpha) {
+    public static BakedQuad createQuad(Vec3 v1, Vec3 v2, Vec3 v3, Vec3 v4, TextureAtlasSprite sprite, int color, float alpha, int tintIndex, boolean hasAmbientOcclusion, boolean shade) {
         Vec3 normal = v3.subtract(v2).cross(v1.subtract(v2)).normalize();
         float nx = (float) normal.x;
         float ny = (float) normal.y;
@@ -94,6 +90,9 @@ public class ModelHelper {
         BakedQuad[] quad = new BakedQuad[1];
         QuadBakingVertexConsumer baker = new QuadBakingVertexConsumer(q -> quad[0] = q);
         baker.setSprite(sprite);
+        baker.setHasAmbientOcclusion(hasAmbientOcclusion);
+        baker.setShade(shade);
+        baker.setTintIndex(tintIndex);
         baker.setDirection(Direction.getNearest(normal.x, normal.y, normal.z));
         baker.normal(nx, ny, nz).vertex(v1.x, v1.y, v1.z).uv(sprite.getU(0), sprite.getV(0)).color(r, g, b, alpha).endVertex();
         baker.normal(nx, ny, nz).vertex(v2.x, v2.y, v2.z).uv(sprite.getU(0), sprite.getV(th)).color(r, g, b, alpha).endVertex();

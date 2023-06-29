@@ -19,6 +19,7 @@ import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.RegistryObject;
 import org.apache.commons.lang3.function.TriFunction;
 import xyz.eaker.yiztech.YizTech;
+import xyz.eaker.yiztech.api.recipe.YTRecipeType;
 import xyz.eaker.yiztech.api.register.*;
 
 import java.util.ArrayList;
@@ -71,6 +72,10 @@ public class YTRegistry {
         RegistryObject<Block> block = BLOCK_REGISTER.register(name, sup);
         BLOCK_MAP.put(name, block);
         return block;
+    }
+
+    public static YTRecipeType recipeType(YTRecipeType recipeType) {
+        return recipeType;
     }
 
     public static <T extends BlockEntity> RegistryObject<BlockEntityType<?>> blockEntity(String name, TriFunction<BlockEntityType<T>, BlockPos, BlockState, T> entitySupplier, Supplier<Block> blockSupplier) {
