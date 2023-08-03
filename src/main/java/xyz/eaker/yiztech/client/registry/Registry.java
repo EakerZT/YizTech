@@ -1,7 +1,6 @@
 package xyz.eaker.yiztech.client.registry;
 
 import com.mojang.logging.LogUtils;
-import net.minecraft.client.Minecraft;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.client.event.ModelEvent;
 import net.minecraftforge.client.event.RegisterColorHandlersEvent;
@@ -20,8 +19,7 @@ public class Registry {
 
     @SubscribeEvent
     public static void onClientSetup(FMLClientSetupEvent event) {
-        LOGGER.info("HELLO FROM CLIENT SETUP");
-        LOGGER.info("MINECRAFT NAME >> {}", Minecraft.getInstance().getUser().getName());
+        event.enqueueWork(YTRegistry::onRegisterClient);
     }
 
     @SubscribeEvent

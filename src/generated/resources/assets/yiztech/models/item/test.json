@@ -1,0 +1,7 @@
+{
+  "parent": "yiztech:block/base_machine",
+  "textures": {
+    "base": "yiztech:block/machine/hull/bronze",
+    "sign": "yiztech:block/machine/sign/alloy_smelter_active"
+  }
+}

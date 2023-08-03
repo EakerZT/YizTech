@@ -1,7 +1,7 @@
 package xyz.eaker.yiztech.api.register;
 
-import net.minecraft.client.color.item.ItemColor;
-import net.minecraftforge.client.model.generators.ItemModelBuilder;
+import net.minecraft.world.item.ItemStack;
 
-public interface IItemColorProvider extends ItemColor {
+public interface IItemColorProvider {
+    int getColor(ItemStack pStack, int pTintIndex);
 }

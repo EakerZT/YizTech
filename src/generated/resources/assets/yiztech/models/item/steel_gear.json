@@ -1,0 +1,10 @@
+{
+  "parent": "minecraft:item/generated",
+  "textures": {
+    "layer0": "yiztech:item/material/gear/00",
+    "layer1": "yiztech:item/material/gear/01",
+    "layer2": "yiztech:item/material/gear/02",
+    "layer3": "yiztech:item/material/gear/03",
+    "layer4": "yiztech:item/material/gear/04"
+  }
+}
