@@ -8,6 +8,6 @@ public abstract class AbstractCover {
     }
 
     public String getName() {
-        return name;
+        return this.name;
     }
 }

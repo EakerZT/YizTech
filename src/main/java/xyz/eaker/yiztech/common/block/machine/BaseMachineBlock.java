@@ -34,7 +34,7 @@ public class BaseMachineBlock extends Block implements IRegisterBlockState, IReg
 
     @Override
     public void onRegisterBlockItemModel(ItemModelProvider provider) {
-        provider.getBuilder(machine.getName())
+        provider.getBuilder(this.machine.getName())
                 .parent(new ModelFile.UncheckedModelFile(provider.modLoc("block/base_machine")))
                 .texture("base", provider.modLoc("block/machine/hull/bronze"))
                 .texture("sign", provider.modLoc("block/machine/sign/" + "alloy_smelter" + ("_active")));
@@ -42,7 +42,7 @@ public class BaseMachineBlock extends Block implements IRegisterBlockState, IReg
 
     @Override
     public void onRegisterBlockState(BlockStateProvider provider) {
-        provider.simpleBlock(this, provider.models().getBuilder(machine.getName())
+        provider.simpleBlock(this, provider.models().getBuilder(this.machine.getName())
                 .customLoader((b, f) -> new CustomLoaderBuilder<BlockModelBuilder>(YizTech.loc(MachineModel.LOADER_NAME), b, f) {
                     @Override
                     public JsonObject toJson(JsonObject json) {
@@ -73,6 +73,6 @@ public class BaseMachineBlock extends Block implements IRegisterBlockState, IReg
     @Nullable
     @Override
     public BlockEntity newBlockEntity(BlockPos pPos, BlockState pState) {
-        return machine.getBlockEntitySupplier().get().create(pPos, pState);
+        return this.machine.getBlockEntitySupplier().get().create(pPos, pState);
     }
 }

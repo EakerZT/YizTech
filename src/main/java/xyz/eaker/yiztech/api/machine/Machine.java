@@ -20,7 +20,7 @@ public class Machine implements IRegisterObject {
     private RegistryObject<MenuType<?>> menuType;
 
     public String getName() {
-        return name;
+        return this.name;
     }
 
     public Machine(String name) {
@@ -28,19 +28,19 @@ public class Machine implements IRegisterObject {
     }
 
     public RegistryObject<BlockEntityType<?>> getBlockEntitySupplier() {
-        return blockEntitySupplier;
+        return this.blockEntitySupplier;
     }
 
     @Override
     public void onCommonRegister() {
-        var block = YTRegistry.block(name, () -> new BaseMachineBlock(this));
-        YTRegistry.item(name, () -> new BlockItem(block.get(), new Item.Properties()));
-        this.blockEntitySupplier = YTRegistry.blockEntity(name, (type, pos, state) -> new BaseMachineEntity(this, pos, state), block);
-        this.menuType = YTRegistry.menu(name, (windowId, inv, data) -> new BaseMachineMenu(windowId, inv, data, this));
+        var block = YTRegistry.block(this.name, () -> new BaseMachineBlock(this));
+        YTRegistry.item(this.name, () -> new BlockItem(block.get(), new Item.Properties()));
+        this.blockEntitySupplier = YTRegistry.blockEntity(this.name, (type, pos, state) -> new BaseMachineEntity(this, pos, state), block);
+        this.menuType = YTRegistry.menu(this.name, (windowId, inv, data) -> new BaseMachineMenu(windowId, inv, data, this));
     }
 
     public RegistryObject<MenuType<?>> getMenuType() {
-        return menuType;
+        return this.menuType;
     }
 
     @OnlyIn(Dist.CLIENT)

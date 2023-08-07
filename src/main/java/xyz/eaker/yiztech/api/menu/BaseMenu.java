@@ -2,8 +2,14 @@ package xyz.eaker.yiztech.api.menu;
 
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.player.Inventory;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.inventory.MenuType;
+import net.minecraft.world.item.ItemStack;
+import net.minecraftforge.items.IItemHandler;
+import net.minecraftforge.items.SlotItemHandler;
+import net.minecraftforge.items.wrapper.InvWrapper;
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import xyz.eaker.yiztech.common.network.ContainerSyncPacket;
 import xyz.eaker.yiztech.common.registry.YTNetwork;
@@ -12,12 +18,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 public abstract class BaseMenu extends AbstractContainerMenu {
-    private final Inventory inventory;
+    protected final Inventory inventory;
     private final List<BaseComponent> components;
 
-    protected BaseMenu(@Nullable MenuType<?> pMenuType, Inventory inventory, int pContainerId) {
+    public BaseMenu(@Nullable MenuType<?> pMenuType, Inventory inventory, int pContainerId) {
         super(pMenuType, pContainerId);
         this.inventory = inventory;
+        addPlayerInventorySlots();
         this.components = new ArrayList<>();
     }
 
@@ -27,7 +34,7 @@ public abstract class BaseMenu extends AbstractContainerMenu {
     }
 
     public List<BaseComponent> getComponents() {
-        return components;
+        return this.components;
     }
 
     @Override
@@ -52,4 +59,33 @@ public abstract class BaseMenu extends AbstractContainerMenu {
 
     }
 
+    protected int addSlotRange(IItemHandler handler, int index, int x, int y, int dx) {
+        for (int i = 0; i < 9; i++) {
+            this.addSlot(new SlotItemHandler(handler, index, x, y));
+            x += dx;
+            index++;
+        }
+        return index;
+    }
+
+    protected void addSlotBox(IItemHandler handler, int index, int x, int y, int dx, int dy) {
+        for (int j = 0; j < 3; j++) {
+            index = addSlotRange(handler, index, x, y, dx);
+            y += dy;
+        }
+    }
+
+    @Override
+    public @NotNull ItemStack quickMoveStack(Player pPlayer, int pIndex) {
+        return ItemStack.EMPTY;
+    }
+
+    private void addPlayerInventorySlots() {
+        int leftPos = 8;
+        int topPos = 84;
+        var inventoryItemHandler = new InvWrapper(this.inventory);
+        addSlotBox(inventoryItemHandler, 9, leftPos, topPos, 18, 18);
+        topPos += 58;
+        addSlotRange(inventoryItemHandler, 0, leftPos, topPos, 18);
+    }
 }

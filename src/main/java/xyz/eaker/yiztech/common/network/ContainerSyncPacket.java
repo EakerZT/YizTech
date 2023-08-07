@@ -30,7 +30,7 @@ public class ContainerSyncPacket implements BaseNetworkPacket<ContainerSyncPacke
     }
 
     public FriendlyByteBuf getBuffer() {
-        return new FriendlyByteBuf(buffer);
+        return new FriendlyByteBuf(this.buffer);
     }
 
     @Override

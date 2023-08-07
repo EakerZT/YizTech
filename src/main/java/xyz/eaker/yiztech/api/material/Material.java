@@ -17,11 +17,11 @@ public class Material implements IRegisterObject {
     }
 
     public int getColor() {
-        return color;
+        return this.color;
     }
 
     public String getName() {
-        return name;
+        return this.name;
     }
 
     public static MaterialBuilder builder(String name) {
@@ -74,7 +74,7 @@ public class Material implements IRegisterObject {
         }
 
         public Material build() {
-            return new Material(this.name, this.color, parts);
+            return new Material(this.name, this.color, this.parts);
         }
     }
 }

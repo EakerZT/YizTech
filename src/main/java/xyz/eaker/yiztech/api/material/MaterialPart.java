@@ -10,6 +10,6 @@ public abstract class MaterialPart {
     public abstract void onRegister(Material material);
 
     public String getName() {
-        return name;
+        return this.name;
     }
 }

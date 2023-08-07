@@ -66,13 +66,13 @@ public class MachineModel implements IDynamicBakedModel {
         }
         List<BakedQuad> quads = new ArrayList<>();
         if (!hullCache.containsKey(side)) {
-            hullCache.put(side, ModelHelper.createQuad(ModelHelper.FACE_QUADS.get(side), getTexture(hull), 0));
+            hullCache.put(side, ModelHelper.createQuad(ModelHelper.FACE_QUADS.get(side), getTexture(this.hull), 0));
         }
         quads.add(hullCache.get(side));
-        if (signBakedQuad == null) {
-            signBakedQuad = ModelHelper.createQuad(ModelHelper.FACE_QUADS.get(Direction.SOUTH), getTexture(sign), 0);
+        if (this.signBakedQuad == null) {
+            this.signBakedQuad = ModelHelper.createQuad(ModelHelper.FACE_QUADS.get(Direction.SOUTH), getTexture(this.sign), 0);
         }
-        quads.add(signBakedQuad);
+        quads.add(this.signBakedQuad);
         if (!coverCache.containsKey(pumpId)) {
             coverCache.put(pumpId, new EnumMap<>(Direction.class));
         }
@@ -107,7 +107,7 @@ public class MachineModel implements IDynamicBakedModel {
     @NotNull
     @Override
     public TextureAtlasSprite getParticleIcon() {
-        return getTexture(hull);
+        return getTexture(this.hull);
     }
 
     @NotNull
@@ -135,7 +135,7 @@ public class MachineModel implements IDynamicBakedModel {
 
         @Override
         public BakedModel bake(IGeometryBakingContext context, ModelBaker baker, Function<Material, TextureAtlasSprite> spriteGetter, ModelState modelState, ItemOverrides overrides, ResourceLocation modelLocation) {
-            return new MachineModel(hull, sign, signActive);
+            return new MachineModel(this.hull, this.sign, this.signActive);
         }
     }
 
