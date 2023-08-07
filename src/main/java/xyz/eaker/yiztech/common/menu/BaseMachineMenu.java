@@ -4,14 +4,12 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.inventory.AbstractContainerMenu;
-import net.minecraft.world.inventory.MenuType;
 import net.minecraft.world.item.ItemStack;
-import org.jetbrains.annotations.Nullable;
 import xyz.eaker.yiztech.api.machine.Machine;
+import xyz.eaker.yiztech.api.menu.BaseMenu;
 import xyz.eaker.yiztech.common.entity.machine.BaseMachineEntity;
 
-public class BaseMachineMenu extends AbstractContainerMenu {
+public class BaseMachineMenu extends BaseMenu {
     private final BaseMachineEntity entity;
 
     public BaseMachineMenu(int pContainerId, Inventory inventory, FriendlyByteBuf data, Machine machine) {
@@ -19,7 +17,7 @@ public class BaseMachineMenu extends AbstractContainerMenu {
     }
 
     public BaseMachineMenu(int pContainerId, Inventory inventory, Machine machine, BlockPos pos) {
-        super(machine.getMenuType().get(), pContainerId);
+        super(machine.getMenuType().get(),inventory, pContainerId);
         this.entity = null;
     }
 

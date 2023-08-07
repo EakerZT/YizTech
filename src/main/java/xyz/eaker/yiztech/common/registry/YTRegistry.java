@@ -68,6 +68,7 @@ public class YTRegistry {
         BLOCK_ENTITY_REGISTER.register(modEventBus);
         CREATIVE_MODE_TABS.register(modEventBus);
         MENU_TYPE_REGISTER.register(modEventBus);
+        YTNetwork.register();
         YTMaterial.register();
         YTMachine.register();
         for (IRegisterObject o : REGISTER_OBJECTS) {

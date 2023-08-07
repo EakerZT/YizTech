@@ -36,12 +36,18 @@ public class MachineModel implements IDynamicBakedModel {
     public final static Loader LOADER = new Loader();
     public final static HashMap<ResourceLocation, TextureAtlasSprite> TEXTURE_MAP = new HashMap<>();
     private final ResourceLocation hull;
+    private final ResourceLocation sign;
+    private final ResourceLocation signActive;
+    private BakedQuad signBakedQuad;
+    private BakedQuad signActiveBakedQuad;
     private static final EnumMap<Direction, BakedQuad> hullCache = new EnumMap<>(Direction.class);
     private static final Map<ResourceLocation, EnumMap<Direction, BakedQuad>> coverCache = new HashMap<>();
     private static final ResourceLocation pumpId = YizTech.loc("block/machine/cover/pump_input");
 
-    public MachineModel(ResourceLocation hull) {
+    public MachineModel(ResourceLocation hull, ResourceLocation sign, ResourceLocation signActive) {
         this.hull = hull;
+        this.sign = sign;
+        this.signActive = signActive;
     }
 
     public static TextureAtlasSprite getTexture(ResourceLocation id) {
@@ -58,9 +64,15 @@ public class MachineModel implements IDynamicBakedModel {
         if (side == null) {
             return Collections.emptyList();
         }
+        List<BakedQuad> quads = new ArrayList<>();
         if (!hullCache.containsKey(side)) {
             hullCache.put(side, ModelHelper.createQuad(ModelHelper.FACE_QUADS.get(side), getTexture(hull), 0));
         }
+        quads.add(hullCache.get(side));
+        if (signBakedQuad == null) {
+            signBakedQuad = ModelHelper.createQuad(ModelHelper.FACE_QUADS.get(Direction.SOUTH), getTexture(sign), 0);
+        }
+        quads.add(signBakedQuad);
         if (!coverCache.containsKey(pumpId)) {
             coverCache.put(pumpId, new EnumMap<>(Direction.class));
         }
@@ -68,9 +80,7 @@ public class MachineModel implements IDynamicBakedModel {
         if (!coverSideCache.containsKey(side)) {
             coverSideCache.put(side, ModelHelper.createQuad(ModelHelper.FACE_QUADS.get(side), getTexture(pumpId), 1, false, false));
         }
-        List<BakedQuad> quads = new ArrayList<>();
-        quads.add(hullCache.get(side));
-        quads.add(coverSideCache.get(side));
+//        quads.add(coverSideCache.get(side));
         return quads;
     }
 
@@ -114,14 +124,18 @@ public class MachineModel implements IDynamicBakedModel {
 
     public static class Geometry implements IUnbakedGeometry<Geometry> {
         private final ResourceLocation hull;
+        private final ResourceLocation sign;
+        private final ResourceLocation signActive;
 
-        public Geometry(ResourceLocation hull) {
+        public Geometry(ResourceLocation hull, ResourceLocation sign, ResourceLocation signActive) {
             this.hull = hull;
+            this.sign = sign;
+            this.signActive = signActive;
         }
 
         @Override
         public BakedModel bake(IGeometryBakingContext context, ModelBaker baker, Function<Material, TextureAtlasSprite> spriteGetter, ModelState modelState, ItemOverrides overrides, ResourceLocation modelLocation) {
-            return new MachineModel(hull);
+            return new MachineModel(hull, sign, signActive);
         }
     }
 
@@ -130,7 +144,9 @@ public class MachineModel implements IDynamicBakedModel {
         @Override
         public Geometry read(JsonObject jsonObject, JsonDeserializationContext deserializationContext) throws JsonParseException {
             var hull = new ResourceLocation(jsonObject.get("hull").getAsString());
-            return new Geometry(hull);
+            var sign = new ResourceLocation(jsonObject.get("sign").getAsString());
+            var signActive = new ResourceLocation(jsonObject.get("signActive").getAsString());
+            return new Geometry(hull, sign, signActive);
         }
     }
 }

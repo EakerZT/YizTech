@@ -7,7 +7,6 @@ import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.MenuProvider;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.EntityBlock;
@@ -23,7 +22,6 @@ import xyz.eaker.yiztech.api.machine.Machine;
 import xyz.eaker.yiztech.api.register.IRegisterBlockItemModel;
 import xyz.eaker.yiztech.api.register.IRegisterBlockState;
 import xyz.eaker.yiztech.client.model.MachineModel;
-import xyz.eaker.yiztech.common.entity.machine.BaseMachineEntity;
 
 public class BaseMachineBlock extends Block implements IRegisterBlockState, IRegisterBlockItemModel, EntityBlock {
     private final Machine machine;
@@ -49,6 +47,8 @@ public class BaseMachineBlock extends Block implements IRegisterBlockState, IReg
                     @Override
                     public JsonObject toJson(JsonObject json) {
                         json.addProperty("hull", YizTech.loc("block/machine/hull/bronze").toString());
+                        json.addProperty("sign", YizTech.loc("block/machine/sign/alloy_smelter").toString());
+                        json.addProperty("signActive", YizTech.loc("block/machine/sign/alloy_smelter_active").toString());
                         return super.toJson(json);
                     }
                 }).end());

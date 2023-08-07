@@ -1,0 +1,6 @@
+{
+  "hull": "yiztech:block/machine/hull/bronze",
+  "loader": "yiztech:machine",
+  "sign": "yiztech:block/machine/sign/alloy_smelter",
+  "signActive": "yiztech:block/machine/sign/alloy_smelter_active"
+}
