@@ -4,6 +4,7 @@ import xyz.eaker.yiztech.api.machine.Machine;
 
 public class YTMachine {
     public static void register() {
-        YTRegistry.registerObject(new Machine("alloy_smelter"));
+        YTRegistry.registerObject(new Machine("alloy_smelter", 2, 1, 0, 0));
     }
+
 }

@@ -52,8 +52,9 @@ public class YTRegistry {
     private static final Map<String, RegistryObject<MenuType<?>>> MENU_TYPE_MAP = new HashMap<>();
 
 
-    public static final RegistryObject<CreativeModeTab> RESOURCE_TAB = CREATIVE_MODE_TABS.register("resource_tab", () -> CreativeModeTab.builder()
+    public static final RegistryObject<CreativeModeTab> RESOURCE_TAB = CREATIVE_MODE_TABS.register("machine", () -> CreativeModeTab.builder()
             .withTabsBefore(CreativeModeTabs.COMBAT)
+            .title(Component.translatable("item_group." + YizTech.MOD_ID + "." + "machine"))
             .icon(Items.IRON_INGOT::getDefaultInstance)
             .displayItems((parameters, output) -> {
                 for (RegistryObject<Item> o : ITEM_MAP.values()) {

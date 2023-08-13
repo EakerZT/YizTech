@@ -17,14 +17,22 @@ import xyz.eaker.yiztech.common.registry.YTRegistry;
 public class Machine implements IRegisterObject {
     private RegistryObject<BlockEntityType<?>> blockEntitySupplier;
     private final String name;
+    public final int itemInputSize;
+    public final int itemOutputSize;
+    public final int fluidInputSize;
+    public final int fluidOutputSize;
     private RegistryObject<MenuType<?>> menuType;
 
     public String getName() {
         return this.name;
     }
 
-    public Machine(String name) {
+    public Machine(String name, int itemInputSize, int itemOutputSize, int fluidInputSize, int fluidOutputSize) {
         this.name = name;
+        this.itemInputSize = itemInputSize;
+        this.itemOutputSize = itemOutputSize;
+        this.fluidInputSize = fluidInputSize;
+        this.fluidOutputSize = fluidOutputSize;
     }
 
     public RegistryObject<BlockEntityType<?>> getBlockEntitySupplier() {
