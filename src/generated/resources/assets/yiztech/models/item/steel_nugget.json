@@ -1,10 +1,7 @@
 {
   "parent": "minecraft:item/generated",
   "textures": {
-    "layer0": "yiztech:item/material/nugget/00",
-    "layer1": "yiztech:item/material/nugget/01",
-    "layer2": "yiztech:item/material/nugget/02",
-    "layer3": "yiztech:item/material/nugget/03",
-    "layer4": "yiztech:item/material/nugget/04"
+    "layer0": "yiztech:item/material/nugget",
+    "layer1": "yiztech:item/material/nugget_overlay"
   }
 }
