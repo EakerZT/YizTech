@@ -6,7 +6,7 @@ import net.minecraft.network.FriendlyByteBuf;
 import net.minecraftforge.network.NetworkDirection;
 import net.minecraftforge.network.NetworkEvent;
 import xyz.eaker.yiztech.api.menu.BaseMenu;
-import xyz.eaker.yiztech.api.menu.ISyncComponent;
+import xyz.eaker.yiztech.api.menu.BaseSyncComponent;
 import xyz.eaker.yiztech.api.network.BaseNetworkPacket;
 
 import java.util.List;
@@ -14,7 +14,7 @@ import java.util.function.Supplier;
 
 // Server -> Client
 public class ContainerSyncPacket implements BaseNetworkPacket<ContainerSyncPacket> {
-    private List<ISyncComponent<?>> syncData;
+    private List<BaseSyncComponent> syncData;
     private ByteBuf buffer;
 
     public ContainerSyncPacket() {
@@ -25,7 +25,7 @@ public class ContainerSyncPacket implements BaseNetworkPacket<ContainerSyncPacke
         this.buffer = buffer;
     }
 
-    public ContainerSyncPacket(List<ISyncComponent<?>> syncData) {
+    public ContainerSyncPacket(List<BaseSyncComponent> syncData) {
         this.syncData = syncData;
     }
 
@@ -55,7 +55,7 @@ public class ContainerSyncPacket implements BaseNetworkPacket<ContainerSyncPacke
     public void encode(ContainerSyncPacket pack, FriendlyByteBuf buf) {
         buf.writeVarInt(pack.syncData.size());
         for (var data : pack.syncData) {
-            buf.writeVarInt(data.self().getIndex());
+            buf.writeVarInt(data.getIndex());
             data.write(buf);
         }
     }

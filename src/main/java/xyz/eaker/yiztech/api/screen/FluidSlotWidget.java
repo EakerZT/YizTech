@@ -1,4 +1,9 @@
 package xyz.eaker.yiztech.api.screen;
 
-public class FluidSlotWidget {
+import xyz.eaker.yiztech.api.menu.FluidSlot;
+
+public class FluidSlotWidget extends BaseWidget {
+    public FluidSlotWidget(FluidSlot fluidSlot) {
+
+    }
 }

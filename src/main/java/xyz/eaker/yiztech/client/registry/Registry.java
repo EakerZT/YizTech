@@ -12,6 +12,7 @@ import org.slf4j.Logger;
 import xyz.eaker.yiztech.YizTech;
 import xyz.eaker.yiztech.client.model.MachineModel;
 import xyz.eaker.yiztech.common.registry.YTRegistry;
+import xyz.eaker.yiztech.common.registry.YTWidget;
 
 @Mod.EventBusSubscriber(modid = YizTech.MOD_ID, bus = Mod.EventBusSubscriber.Bus.MOD, value = Dist.CLIENT)
 public class Registry {
@@ -20,6 +21,7 @@ public class Registry {
     @SubscribeEvent
     public static void onClientSetup(FMLClientSetupEvent event) {
         event.enqueueWork(YTRegistry::onRegisterClient);
+        event.enqueueWork(YTWidget::onRegisterWidget);
     }
 
     @SubscribeEvent

@@ -1,6 +1,6 @@
 package xyz.eaker.yiztech.api.menu;
 
-public class BaseComponent {
+public abstract class BaseComponent {
     protected int index;
     protected int x;
     protected int y;

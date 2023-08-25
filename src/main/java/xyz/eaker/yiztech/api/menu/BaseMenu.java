@@ -43,9 +43,9 @@ public abstract class BaseMenu extends AbstractContainerMenu {
         if (!(this.inventory.player instanceof ServerPlayer)) {
             return;
         }
-        List<ISyncComponent<?>> syncList = new ArrayList<>();
+        List<BaseSyncComponent> syncList = new ArrayList<>();
         for (BaseComponent component : this.components) {
-            if (component instanceof ISyncComponent<?> syncComponent) {
+            if (component instanceof BaseSyncComponent syncComponent && syncComponent.isChanged()) {
                 syncList.add(syncComponent);
             }
         }
@@ -56,7 +56,14 @@ public abstract class BaseMenu extends AbstractContainerMenu {
     }
 
     public void onReceiveSyncPacket(ContainerSyncPacket packet) {
-
+        var buffer = packet.getBuffer();
+        var len = buffer.readInt();
+        for (int i = 0; i < len; i++) {
+            var index = buffer.readVarInt();
+            if (this.components.get(index) instanceof BaseSyncComponent syncComponent) {
+                syncComponent.read(buffer);
+            }
+        }
     }
 
     protected int addSlotRange(IItemHandler handler, int index, int x, int y, int dx) {
