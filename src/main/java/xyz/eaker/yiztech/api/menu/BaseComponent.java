@@ -2,10 +2,10 @@ package xyz.eaker.yiztech.api.menu;
 
 public abstract class BaseComponent {
     protected int index;
-    protected int x;
-    protected int y;
-    protected int w;
-    protected int h;
+    public final int x;
+    public final int y;
+    public final int w;
+    public final int h;
 
     public BaseComponent(int x, int y, int w, int h) {
         this.x = x;

@@ -8,6 +8,7 @@ import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.registries.RegistryObject;
 import xyz.eaker.yiztech.api.register.IRegisterObject;
+import xyz.eaker.yiztech.client.screen.BaseMachineScreen;
 import xyz.eaker.yiztech.client.screen.BaseScreen;
 import xyz.eaker.yiztech.common.block.machine.BaseMachineBlock;
 import xyz.eaker.yiztech.common.entity.machine.BaseMachineEntity;
@@ -54,6 +55,6 @@ public class Machine implements IRegisterObject {
     @OnlyIn(Dist.CLIENT)
     @Override
     public void onClientRegister() {
-        YTRegistry.screen(this.menuType, BaseScreen::new);
+        YTRegistry.screen(this.menuType, BaseMachineScreen::new);
     }
 }
